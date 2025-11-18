@@ -1,0 +1,4 @@
+*.kt linguist-detectable=true
+*.xml linguist-detectable=true
+*.html linguist-detectable=false
+

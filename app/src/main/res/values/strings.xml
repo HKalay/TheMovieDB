@@ -1,0 +1,42 @@
+<resources>
+    <string name="app_name">The Movie DB</string>
+
+    <!--GENERAL-->
+    <string name="ok">OK</string>
+    <string name="an_error_occurred">An error occurred</string>
+
+    <!--MOVIES-->
+    <string name="movies">Movies</string>
+    <string name="no_movie_found">No movie found</string>
+    <string name="search_movies">Search Movies</string>
+    <string name="no_movie_found_search">No Movies found matching your search.</string>
+
+    <!--TV SHOWS-->
+    <string name="tv_shows">TV Shows</string>
+    <string name="no_tv_shows_found">No TV Shows found</string>
+    <string name="search_tv_shows">Search TV Shows</string>
+    <string name="no_tv_show_found_search">No TV shows found matching your search.</string>
+
+    <!--FAVORITES-->
+    <string name="favorites">Favorites</string>
+
+    <!--DIALOG MESSAGES-->
+    <string name="loading_movies">Loading Movies...</string>
+    <string name="loading_tv_shows">Loading TV Shows...</string>
+
+    <!--DETAIL-->
+    <string name="detail_screen">Detail Screen</string>
+    <string name="loading_detail">Loading Detail...</string>
+    <string name="no_detail_found">No detail found</string>
+    <string name="vote">Vote</string>
+    <string name="release_date">Release Date</string>
+    <string name="genres">Genres</string>
+    <string name="overview">Overview</string>
+
+    <!--FAVORITE-->
+    <string name="loading_favorites">Loading Favorites...</string>
+    <string name="no_favorite_found">No favorite Movies or TV shows yet.</string>
+    <string name="search_favorites">Search Favorites</string>
+    <string name="no_favorite_found_search">No favorite found matching your search.</string>
+
+</resources>
