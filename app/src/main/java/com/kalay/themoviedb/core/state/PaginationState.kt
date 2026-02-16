@@ -24,7 +24,5 @@ data class PaginationState<T>(
 
     fun startLoading() = copy(isLoading = true)
 
-    fun setLastPage() = copy(isLoading = false, isLastPage = true)
-
     fun setLoadingFailed() = copy(isLoading = false)
 }

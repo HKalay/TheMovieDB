@@ -94,4 +94,9 @@ dependencies {
     // SplashScreen
     implementation(libs.core.splashscreen)
 
+    // Unit Test
+    testImplementation(libs.junit)
+    testImplementation(libs.mockk)
+    testImplementation(libs.kotlinx.coroutines.test)
+    testImplementation(libs.turbine)
 }
