@@ -4,7 +4,7 @@ import com.kalay.themoviedb.domain.enums.DetailType
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class DetailDTO(
+data class Detail(
     val id: Int,
     val title: String? = null,
     val overview: String? = null,

@@ -4,8 +4,8 @@ import com.kalay.themoviedb.core.util.ErrorResponse
 import com.kalay.themoviedb.core.util.Resource
 import com.kalay.themoviedb.core.base.BaseViewModel
 import com.kalay.themoviedb.domain.mapper.toFavorite
-import com.kalay.themoviedb.domain.model.remote.DetailDTO
-import com.kalay.themoviedb.domain.model.remote.DiscoverDTO
+import com.kalay.themoviedb.domain.model.remote.Detail
+import com.kalay.themoviedb.domain.model.remote.Discover
 import com.kalay.themoviedb.domain.usecase.local.DeleteFromFavoritesUseCase
 import com.kalay.themoviedb.domain.usecase.local.GetAllFavoritesUseCase
 import com.kalay.themoviedb.domain.usecase.local.InsertToFavoriteUseCase
@@ -31,44 +31,44 @@ class FavoriteViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(FavoriteUiState())
     val uiState: StateFlow<FavoriteUiState> = _uiState.asStateFlow()
 
-    fun syncFavoriteState(discoverDTO: DiscoverDTO) {
+    fun syncFavoriteState(discover: Discover) {
         safeLaunch(
-            block = { isFavoriteUseCase(discoverDTO.id) },
+            block = { isFavoriteUseCase(discover.id) },
             onSuccess = { isFav ->
                 _favoritesMap.value = _favoritesMap.value.toMutableMap().apply {
-                    put(discoverDTO.id, isFav)
+                    put(discover.id, isFav)
                 }
             }
         )
     }
 
-    fun syncFavoriteState(detailDTO: DetailDTO) {
+    fun syncFavoriteState(detail: Detail) {
         safeLaunch(
-            block = { isFavoriteUseCase(detailDTO.id) },
+            block = { isFavoriteUseCase(detail.id) },
             onSuccess = { isFav ->
                 _favoritesMap.value = _favoritesMap.value.toMutableMap().apply {
-                    put(detailDTO.id, isFav)
+                    put(detail.id, isFav)
                 }
             }
         )
     }
 
-    fun toggleFavorite(discoverDTO: DiscoverDTO) {
+    fun toggleFavorite(discover: Discover) {
         safeLaunch(
-            block = { isFavoriteUseCase(discoverDTO.id) },
+            block = { isFavoriteUseCase(discover.id) },
             onSuccess = { current ->
-                val favoriteDTO = discoverDTO.toFavorite()
+                val favoriteDTO = discover.toFavorite()
                 safeLaunch(
                     block = {
                         if (current) {
-                            deleteFromFavoritesUseCase(discoverDTO.id)
+                            deleteFromFavoritesUseCase(discover.id)
                         } else {
                             insertToFavoriteUseCase(favoriteDTO)
                         }
                     },
                     onSuccess = {
                         _favoritesMap.value = _favoritesMap.value.toMutableMap().apply {
-                            put(discoverDTO.id, !current)
+                            put(discover.id, !current)
                         }
                         fetchFavorites()
                     }
@@ -77,22 +77,22 @@ class FavoriteViewModel @Inject constructor(
         )
     }
 
-    fun toggleFavorite(detailDTO: DetailDTO) {
+    fun toggleFavorite(detail: Detail) {
         safeLaunch(
-            block = { isFavoriteUseCase(detailDTO.id) },
+            block = { isFavoriteUseCase(detail.id) },
             onSuccess = { current ->
-                val favoriteDTO = detailDTO.toFavorite()
+                val favoriteDTO = detail.toFavorite()
                 safeLaunch(
                     block = {
                         if (current) {
-                            deleteFromFavoritesUseCase(detailDTO.id)
+                            deleteFromFavoritesUseCase(detail.id)
                         } else {
                             insertToFavoriteUseCase(favoriteDTO)
                         }
                     },
                     onSuccess = {
                         _favoritesMap.value = _favoritesMap.value.toMutableMap().apply {
-                            put(detailDTO.id, !current)
+                            put(detail.id, !current)
                         }
                         fetchFavorites()
                     }
@@ -140,7 +140,7 @@ class FavoriteViewModel @Inject constructor(
         collectFlow(
             flow = getAllFavoritesUseCase(),
             onEach = { data ->
-                // getAllFavoritesUseCase already returns Flow<List<FavoriteDTO>>, no mapping needed
+                // getAllFavoritesUseCase already returns Flow<List<Favorite>>, no mapping needed
                 val filtered = if (_uiState.value.searchQuery.isBlank()) {
                     data
                 } else {

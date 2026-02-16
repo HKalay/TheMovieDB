@@ -27,7 +27,7 @@ import com.kalay.themoviedb.core.theme.font.urbanistTypography
 import com.kalay.themoviedb.core.ui.NetworkImage
 import com.kalay.themoviedb.core.util.Resource
 import com.kalay.themoviedb.core.util.fromJson
-import com.kalay.themoviedb.domain.model.remote.DetailDTO
+import com.kalay.themoviedb.domain.model.remote.Detail
 import com.kalay.themoviedb.feature.detail.navigation.DetailScreenDestination
 import com.kalay.themoviedb.feature.detail.presentation.DetailViewModel
 import com.kalay.themoviedb.feature.detail.ui.component.DetailDialog
@@ -49,10 +49,10 @@ fun DetailScreen(detailScreenDestination: DetailScreenDestination, navController
     val uiState by viewModel.uiState.collectAsState()
     val favoritesMap by favoriteViewModel.favoritesMap.collectAsState()
 
-    val args = detailScreenDestination.discoverJson.fromJson<DetailDTO>()
+    val args = detailScreenDestination.discoverJson.fromJson<Detail>()
 
     LaunchedEffect(Unit) {
-        viewModel.fetchDetail(detailDTO = args)
+        viewModel.fetchDetail(detail = args)
         favoriteViewModel.syncFavoriteState(args)
     }
 
@@ -64,7 +64,7 @@ fun DetailScreen(detailScreenDestination: DetailScreenDestination, navController
     DetailDialog(navController = navController, viewModel = viewModel)
 
     Box(modifier = Modifier.fillMaxSize()) {
-        DetailScreenBackground(detailDTO = args)
+        DetailScreenBackground(detail = args)
 
         Scaffold(
             modifier = Modifier.fillMaxSize(),

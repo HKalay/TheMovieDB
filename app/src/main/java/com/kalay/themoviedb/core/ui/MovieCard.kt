@@ -29,11 +29,11 @@ import androidx.compose.ui.unit.dp
 import com.kalay.themoviedb.R
 import com.kalay.themoviedb.core.theme.Dark1Color
 import com.kalay.themoviedb.core.theme.font.urbanistTypography
-import com.kalay.themoviedb.domain.model.remote.DiscoverDTO
+import com.kalay.themoviedb.domain.model.remote.Discover
 
 @Composable
 fun MovieCard(
-    discoverDTO: DiscoverDTO,
+    discover: Discover,
     onClick: () -> Unit,
     updateFavoriteStatus: () -> Unit
 ) {
@@ -58,13 +58,13 @@ fun MovieCard(
                 contentAlignment = Alignment.Center
             ) {
 
-                val icon = if (discoverDTO.isFavorite)
+                val icon = if (discover.isFavorite)
                     R.drawable.ic_favorite_selected
                 else
                     R.drawable.ic_favorite_un_selected
 
                 NetworkImage(
-                    imageUrl = discoverDTO.posterPath,
+                    imageUrl = discover.posterPath,
                     modifier = Modifier
                         .fillMaxSize()
                         .clip(RoundedCornerShape(12.dp))
@@ -86,7 +86,7 @@ fun MovieCard(
             Spacer(modifier = Modifier.height(8.dp))
 
             Text(
-                text = discoverDTO.title,
+                text = discover.title,
                 style = urbanistTypography().typography.headlineSmall.copy(color = Color.White),
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis,
@@ -118,13 +118,13 @@ fun MovieCard(
                     )
 
                     Text(
-                        text = discoverDTO.voteAverage,
+                        text = discover.voteAverage,
                         style = urbanistTypography().typography.bodySmall.copy(color = Color.White)
                     )
                 }
 
                 Text(
-                    text = discoverDTO.releaseDate.split("-").getOrNull(0) ?: "-",
+                    text = discover.releaseDate.split("-").getOrNull(0) ?: "-",
                     style = urbanistTypography().typography.bodySmall.copy(color = Color.Gray)
                 )
             }

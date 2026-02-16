@@ -13,10 +13,10 @@ import androidx.compose.ui.unit.dp
 import com.kalay.themoviedb.R
 
 import com.kalay.themoviedb.core.theme.font.urbanistTypography
-import com.kalay.themoviedb.domain.model.remote.DetailDTO
+import com.kalay.themoviedb.domain.model.remote.Detail
 
 @Composable
-fun Overview(detail: DetailDTO) {
+fun Overview(detail: Detail) {
     DetailSection(title = stringResource(R.string.overview)) {
         Row(
             modifier = Modifier

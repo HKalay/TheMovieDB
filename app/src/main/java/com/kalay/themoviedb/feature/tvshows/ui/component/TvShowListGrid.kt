@@ -19,7 +19,7 @@ import com.kalay.themoviedb.core.theme.PrimaryColor
 import com.kalay.themoviedb.core.ui.MovieCard
 import com.kalay.themoviedb.core.util.toJson
 import com.kalay.themoviedb.domain.mapper.toDetail
-import com.kalay.themoviedb.domain.model.remote.DiscoverDTO
+import com.kalay.themoviedb.domain.model.remote.Discover
 import com.kalay.themoviedb.feature.detail.navigation.DetailScreenDestination
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filter
@@ -27,11 +27,11 @@ import kotlinx.coroutines.flow.filter
 @Composable
 fun TvShowListGrid(
     navController: NavController,
-    tvShows: List<DiscoverDTO>,
+    tvShows: List<Discover>,
     favoriteMap: Map<Int, Boolean>,
     onReachBottom: () -> Unit,
-    updateFavoriteStatus: (DiscoverDTO) -> Unit,
-    onSyncFavorite: (DiscoverDTO) -> Unit
+    updateFavoriteStatus: (Discover) -> Unit,
+    onSyncFavorite: (Discover) -> Unit
 ) {
     val listState = rememberLazyGridState()
 
@@ -68,7 +68,7 @@ fun TvShowListGrid(
                 val isFavorite = favoriteMap[tvShow.id] ?: false
 
                 MovieCard(
-                    discoverDTO = tvShow.copy(isFavorite = isFavorite),
+                    discover = tvShow.copy(isFavorite = isFavorite),
                     onClick = {
                         val discoverJson = tvShow.toDetail().toJson()
                         navController.navigate(DetailScreenDestination(discoverJson))

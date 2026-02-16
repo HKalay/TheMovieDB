@@ -1,11 +1,11 @@
 package com.kalay.themoviedb.domain.mapper
 
-import com.kalay.themoviedb.domain.model.local.FavoriteDTO
-import com.kalay.themoviedb.domain.model.remote.DetailDTO
-import com.kalay.themoviedb.domain.model.remote.DiscoverDTO
+import com.kalay.themoviedb.domain.model.local.Favorite
+import com.kalay.themoviedb.domain.model.remote.Detail
+import com.kalay.themoviedb.domain.model.remote.Discover
 
-fun DiscoverDTO.toDetail(): DetailDTO {
-    return DetailDTO(
+fun Discover.toDetail(): Detail {
+    return Detail(
         id = id,
         posterPath = posterPath,
         detailType = detailType,
@@ -15,8 +15,8 @@ fun DiscoverDTO.toDetail(): DetailDTO {
     )
 }
 
-fun FavoriteDTO.toDetail(): DetailDTO {
-    return DetailDTO(
+fun Favorite.toDetail(): Detail {
+    return Detail(
         id = id,
         posterPath = posterPath,
         detailType = detailType,

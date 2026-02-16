@@ -7,17 +7,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.kalay.themoviedb.core.theme.PrimaryColor
 import com.kalay.themoviedb.core.ui.NetworkImage
-import com.kalay.themoviedb.domain.model.remote.DetailDTO
+import com.kalay.themoviedb.domain.model.remote.Detail
 
 @Composable
-fun DetailScreenBackground(detailDTO: DetailDTO){
+fun DetailScreenBackground(detail: Detail){
     Box(
         modifier = Modifier
             .fillMaxSize()
             .background(color = PrimaryColor)
     ) {
         NetworkImage(
-            imageUrl = detailDTO.posterPath,
+            imageUrl = detail.posterPath,
             modifier = Modifier
                 .fillMaxSize()
         )

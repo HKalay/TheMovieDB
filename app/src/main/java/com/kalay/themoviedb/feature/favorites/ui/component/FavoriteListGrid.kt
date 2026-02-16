@@ -18,13 +18,13 @@ import com.kalay.themoviedb.core.ui.MovieCard
 import com.kalay.themoviedb.core.util.toJson
 import com.kalay.themoviedb.domain.mapper.toDetail
 import com.kalay.themoviedb.domain.mapper.toDiscover
-import com.kalay.themoviedb.domain.model.local.FavoriteDTO
+import com.kalay.themoviedb.domain.model.local.Favorite
 import com.kalay.themoviedb.feature.detail.navigation.DetailScreenDestination
 
 @Composable
 fun FavoriteListGrid(
     navController: NavController,
-    favorites: List<FavoriteDTO>,
+    favorites: List<Favorite>,
     updateFavoriteStatus: (Int) -> Unit
 ) {
     val listState = rememberLazyGridState()
@@ -43,7 +43,7 @@ fun FavoriteListGrid(
         ) {
             items(favorites) { favorite ->
                 MovieCard(
-                    discoverDTO = favorite.toDiscover(),
+                    discover = favorite.toDiscover(),
                     onClick = {
                         val discoverJson = favorite
                             .toDetail()

@@ -17,10 +17,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.kalay.themoviedb.R
 import com.kalay.themoviedb.core.theme.font.urbanistTypography
-import com.kalay.themoviedb.domain.model.remote.DetailDTO
+import com.kalay.themoviedb.domain.model.remote.Detail
 
 @Composable
-fun Vote(detail: DetailDTO) {
+fun Vote(detail: Detail) {
     DetailSection(title = stringResource(R.string.vote)) {
         Row(
             modifier = Modifier

@@ -5,7 +5,7 @@ import com.kalay.themoviedb.core.util.ErrorResponse
 import com.kalay.themoviedb.core.state.PaginationState
 import com.kalay.themoviedb.core.util.Resource
 import com.kalay.themoviedb.core.base.BaseViewModel
-import com.kalay.themoviedb.domain.model.remote.DiscoverDTO
+import com.kalay.themoviedb.domain.model.remote.Discover
 import com.kalay.themoviedb.domain.usecase.remote.discover.GetDiscoverTvUseCase
 import com.kalay.themoviedb.domain.usecase.remote.search.GetSearchTvUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -35,8 +35,8 @@ class TvShowsViewModel @Inject constructor(
         .map { it.searchQuery }
         .distinctUntilChanged()
 
-    private val _paginationState = MutableStateFlow(PaginationState<DiscoverDTO>())
-    private val paginationState: PaginationState<DiscoverDTO> get() = _paginationState.value
+    private val _paginationState = MutableStateFlow(PaginationState<Discover>())
+    private val paginationState: PaginationState<Discover> get() = _paginationState.value
 
     init {
         ensureFirstPageLoaded()

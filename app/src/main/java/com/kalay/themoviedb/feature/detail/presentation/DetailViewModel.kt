@@ -4,7 +4,7 @@ import com.kalay.themoviedb.core.util.ErrorResponse
 import com.kalay.themoviedb.core.util.Resource
 import com.kalay.themoviedb.core.base.BaseViewModel
 import com.kalay.themoviedb.domain.enums.DetailType
-import com.kalay.themoviedb.domain.model.remote.DetailDTO
+import com.kalay.themoviedb.domain.model.remote.Detail
 import com.kalay.themoviedb.domain.usecase.remote.detail.GetDetailMovieUseCase
 import com.kalay.themoviedb.domain.usecase.remote.detail.GetDetailTvShowUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -23,12 +23,12 @@ class DetailViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(DetailUiState())
     val uiState: StateFlow<DetailUiState> = _uiState.asStateFlow()
 
-    fun fetchDetail(detailDTO: DetailDTO) {
+    fun fetchDetail(detail: Detail) {
         safeLaunch(
             block = {
-                when (detailDTO.detailType) {
-                    DetailType.MOVIE -> getDetailMovieUseCase(detailDTO.id)
-                    DetailType.TV_SHOW -> getDetailTvShowUseCase(detailDTO.id)
+                when (detail.detailType) {
+                    DetailType.MOVIE -> getDetailMovieUseCase(detail.id)
+                    DetailType.TV_SHOW -> getDetailTvShowUseCase(detail.id)
                 }
             },
             onSuccess = { data ->

@@ -3,7 +3,7 @@ package com.kalay.themoviedb.data.repository.local
 import com.kalay.themoviedb.data.local.datasource.FavoriteLocalDataSource
 import com.kalay.themoviedb.data.mapper.toFavorite
 import com.kalay.themoviedb.data.mapper.toFavoriteEntity
-import com.kalay.themoviedb.domain.model.local.FavoriteDTO
+import com.kalay.themoviedb.domain.model.local.Favorite
 import com.kalay.themoviedb.domain.repository.local.FavoriteRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -13,7 +13,7 @@ class FavoriteRepositoryImpl @Inject constructor(
     private val favoriteLocalDataSource: FavoriteLocalDataSource
 ) : FavoriteRepository {
 
-    override suspend fun insertFavorite(favorite: FavoriteDTO) {
+    override suspend fun insertFavorite(favorite: Favorite) {
         favoriteLocalDataSource.insertFavorite(favorite.toFavoriteEntity())
     }
 
@@ -21,7 +21,7 @@ class FavoriteRepositoryImpl @Inject constructor(
         favoriteLocalDataSource.deleteFavorite(id)
     }
 
-    override fun getAllFavorites(): Flow<List<FavoriteDTO>> = 
+    override fun getAllFavorites(): Flow<List<Favorite>> =
         favoriteLocalDataSource.getAllFavorites().map { entities ->
             entities.map { it.toFavorite() }
         }

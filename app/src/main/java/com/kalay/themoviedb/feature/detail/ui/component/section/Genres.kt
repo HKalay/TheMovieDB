@@ -17,10 +17,10 @@ import androidx.compose.ui.unit.dp
 import com.kalay.themoviedb.R
 import com.kalay.themoviedb.core.theme.Dark5Color
 import com.kalay.themoviedb.core.theme.font.urbanistTypography
-import com.kalay.themoviedb.domain.model.remote.DetailDTO
+import com.kalay.themoviedb.domain.model.remote.Detail
 
 @Composable
-fun Genres(detail: DetailDTO) {
+fun Genres(detail: Detail) {
     DetailSection(title = stringResource(R.string.genres)) {
         LazyRow(
             modifier = Modifier
