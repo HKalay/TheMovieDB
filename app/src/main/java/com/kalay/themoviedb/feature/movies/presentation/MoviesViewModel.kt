@@ -3,6 +3,7 @@ package com.kalay.themoviedb.feature.movies.presentation
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kalay.themoviedb.core.util.ErrorResponse
+import com.kalay.themoviedb.core.state.PaginationState
 import com.kalay.themoviedb.core.util.Resource
 import com.kalay.themoviedb.core.util.safeLaunch
 import com.kalay.themoviedb.domain.model.remote.DiscoverDTO
@@ -35,11 +36,8 @@ class MoviesViewModel @Inject constructor(
         .map { it.searchQuery }
         .distinctUntilChanged()
 
-    private var currentPage = 1
-    private var isLoading = false
-    private var isLastPage = false
-    private var currentQuery: String = ""
-    private val movies = mutableListOf<DiscoverDTO>()
+    private val _paginationState = MutableStateFlow(PaginationState<DiscoverDTO>())
+    private val paginationState: PaginationState<DiscoverDTO> get() = _paginationState.value
 
     init {
         ensureFirstPageLoaded()
@@ -47,16 +45,17 @@ class MoviesViewModel @Inject constructor(
     }
 
     fun ensureFirstPageLoaded() {
-        if (movies.isEmpty() && !isLoading) {
+        if (paginationState.items.isEmpty() && !paginationState.isLoading) {
             fetchDiscoverMovies()
         }
     }
 
     fun fetchDiscoverMovies() {
-        if (isLoading || isLastPage) return
-        isLoading = true
+        val state = paginationState
+        if (state.isLoading || state.isLastPage) return
 
-        if (movies.isEmpty()) {
+        _paginationState.update { it.startLoading() }
+        if (state.items.isEmpty()) {
             _uiState.update { it.copy(movieListResource = Resource.Loading) }
         } else {
             _uiState.update { it.copy(isPaginating = true) }
@@ -65,27 +64,22 @@ class MoviesViewModel @Inject constructor(
         safeLaunch(
             block = {
                 if (_uiState.value.isSearchMode) {
-                    getSearchMoviesUseCase(currentQuery, currentPage)
+                    getSearchMoviesUseCase(state.currentQuery, state.currentPage)
                 } else {
-                    getDiscoverMoviesUseCase(currentPage)
+                    getDiscoverMoviesUseCase(state.currentPage)
                 }
             },
             onSuccess = { result ->
-                if (result.isEmpty()) {
-                    isLastPage = true
-                } else {
-                    movies.addAll(result)
-                    currentPage++
-                }
-                _uiState.update { 
+                _paginationState.update { it.appendPage(result) }
+                _uiState.update {
                     it.copy(
-                        movieListResource = Resource.Success(movies.toList()),
+                        movieListResource = Resource.Success(_paginationState.value.items),
                         isPaginating = false
                     )
                 }
-                isLoading = false
             },
             onError = { error ->
+                _paginationState.update { it.setLoadingFailed() }
                 _uiState.update {
                     it.copy(
                         movieListResource = Resource.Error(
@@ -96,7 +90,6 @@ class MoviesViewModel @Inject constructor(
                         isPaginating = false
                     )
                 }
-                isLoading = false
             }
         )
     }
@@ -143,15 +136,12 @@ class MoviesViewModel @Inject constructor(
                 movieListResource = Resource.Loading
             )
         }
-        currentQuery = query
-        currentPage = 1
-        isLastPage = false
-        movies.clear()
+        _paginationState.update { it.reset(query) }
     }
 
     fun hideDialog() {
         if (_uiState.value.movieListResource is Resource.Error || _uiState.value.movieListResource is Resource.Empty) {
-            _uiState.update { it.copy(movieListResource = Resource.Success(movies.toList())) }
+            _uiState.update { it.copy(movieListResource = Resource.Success(paginationState.items)) }
         }
     }
 }
