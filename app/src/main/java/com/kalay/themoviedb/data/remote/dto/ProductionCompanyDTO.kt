@@ -2,7 +2,7 @@ package com.kalay.themoviedb.data.remote.dto
 
 import com.google.gson.annotations.SerializedName
 
-data class ProductionCompany(
+data class ProductionCompanyDTO(
     @SerializedName("id") val id: Int,
     @SerializedName("logo_path") val logoPath: String?,
     @SerializedName("name") val name: String,

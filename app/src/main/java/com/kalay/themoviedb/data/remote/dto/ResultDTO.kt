@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 import com.kalay.themoviedb.core.util.Constant.API_IMAGE_URL
 import java.util.Locale
 
-data class Result(
+data class ResultDTO(
     @SerializedName("id") val id: Int,
 
     // MOVIE
@@ -29,10 +29,10 @@ data class Result(
     @SerializedName("backdrop_path") val backdropPath: String?,
     @SerializedName("media_type") val mediaType: String?,
     @SerializedName("genre_ids") val genreIds: List<Int> = emptyList(),
-    @SerializedName("genres") val genres: List<Genre> = emptyList(),
-    @SerializedName("production_companies") val productionCompanies: List<ProductionCompany> = emptyList(),
-    @SerializedName("production_countries") val productionCountries: List<ProductionCountry> = emptyList(),
-    @SerializedName("spoken_languages") val spokenLanguages: List<SpokenLanguage> = emptyList(),
+    @SerializedName("genreDTOS") val genreDTOS: List<GenreDTO> = emptyList(),
+    @SerializedName("production_companies") val productionCompanies: List<ProductionCompanyDTO> = emptyList(),
+    @SerializedName("production_countries") val productionCountries: List<ProductionCountryDTO> = emptyList(),
+    @SerializedName("spoken_languages") val spokenLanguageDTOS: List<SpokenLanguageDTO> = emptyList(),
     @SerializedName("origin_country") val originCountry: List<String> = emptyList(),
     @SerializedName("original_language") val originalLanguage: String?,
     @SerializedName("popularity") val popularity: Double?,

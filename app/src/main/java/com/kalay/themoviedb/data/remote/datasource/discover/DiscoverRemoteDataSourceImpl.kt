@@ -1,6 +1,5 @@
 package com.kalay.themoviedb.data.remote.datasource.discover
 
-import com.kalay.themoviedb.data.remote.response.ServiceResponseDTO
 import com.kalay.themoviedb.data.remote.service.ApiDiscoverService
 import javax.inject.Inject
 

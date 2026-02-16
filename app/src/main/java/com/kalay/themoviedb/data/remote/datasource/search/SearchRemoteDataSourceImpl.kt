@@ -1,6 +1,5 @@
 package com.kalay.themoviedb.data.remote.datasource.search
 
-import com.kalay.themoviedb.data.remote.response.ServiceResponseDTO
 import com.kalay.themoviedb.data.remote.service.ApiSearchService
 import javax.inject.Inject
 

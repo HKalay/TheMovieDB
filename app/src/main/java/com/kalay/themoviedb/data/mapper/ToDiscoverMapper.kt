@@ -1,10 +1,10 @@
 package com.kalay.themoviedb.data.mapper
 
-import com.kalay.themoviedb.data.remote.dto.Result
+import com.kalay.themoviedb.data.remote.dto.ResultDTO
 import com.kalay.themoviedb.domain.enums.DetailType
 import com.kalay.themoviedb.domain.model.remote.Discover
 
-fun Result.toDiscover(detailType: DetailType): Discover {
+fun ResultDTO.toDiscover(detailType: DetailType): Discover {
     return Discover(
         id = id,
         title = titleFormatted,

@@ -13,11 +13,11 @@ class SearchRepositoryImpl @Inject constructor(
 
     override suspend fun getSearchMovies(movieName: String, page: Int): List<Discover> {
         val response = remoteDataSource.getSearchMovies(movieName = movieName, page = page)
-        return response.results.map { it.toDiscover(detailType = DetailType.MOVIE) }
+        return response.resultDTOS.map { it.toDiscover(detailType = DetailType.MOVIE) }
     }
 
     override suspend fun getSearchTv(tvName: String, page: Int): List<Discover> {
         val response = remoteDataSource.getSearchTv(tvName=tvName,page = page)
-        return response.results.map { it.toDiscover(detailType = DetailType.TV_SHOW) }
+        return response.resultDTOS.map { it.toDiscover(detailType = DetailType.TV_SHOW) }
     }
 }

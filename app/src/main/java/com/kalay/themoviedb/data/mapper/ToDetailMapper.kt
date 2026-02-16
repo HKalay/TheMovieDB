@@ -1,10 +1,10 @@
 package com.kalay.themoviedb.data.mapper
 
-import com.kalay.themoviedb.data.remote.dto.Result
+import com.kalay.themoviedb.data.remote.dto.ResultDTO
 import com.kalay.themoviedb.domain.enums.DetailType
 import com.kalay.themoviedb.domain.model.remote.Detail
 
-fun Result.toDetail(detailType: DetailType): Detail {
+fun ResultDTO.toDetail(detailType: DetailType): Detail {
     return Detail(
         id = id,
         title = titleFormatted,
@@ -14,7 +14,7 @@ fun Result.toDetail(detailType: DetailType): Detail {
         voteAverage = voteAverageFormatted,
         voteCount = voteCount,
         releaseDate = dateFormatted,
-        genres = genres.map { it.name },
+        genres = genreDTOS.map { it.name },
         detailType = detailType
     )
 }

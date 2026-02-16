@@ -13,11 +13,11 @@ class DiscoverRepositoryImpl @Inject constructor(
 
     override suspend fun getDiscoverMovies(page: Int): List<Discover> {
         val response = remoteDataSource.getDiscoverMovies(page = page)
-        return response.results.map { it.toDiscover(detailType = DetailType.MOVIE) }
+        return response.resultDTOS.map { it.toDiscover(detailType = DetailType.MOVIE) }
     }
 
     override suspend fun getDiscoverTv(page: Int): List<Discover> {
         val response = remoteDataSource.getDiscoverTv(page = page)
-        return response.results.map { it.toDiscover(detailType = DetailType.TV_SHOW) }
+        return response.resultDTOS.map { it.toDiscover(detailType = DetailType.TV_SHOW) }
     }
 }

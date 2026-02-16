@@ -1,6 +1,6 @@
 package com.kalay.themoviedb.data.remote.service
 
-import com.kalay.themoviedb.data.remote.response.ServiceResponseDTO
+import com.kalay.themoviedb.data.remote.response.ServiceResponse
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -8,10 +8,10 @@ interface ApiDiscoverService {
     @GET("discover/movie")
     suspend fun getDiscoverMovies(
         @Query("page") page: Int
-    ): ServiceResponseDTO
+    ): ServiceResponse
 
     @GET("discover/tv")
     suspend fun getDiscoverTv(
         @Query("page") page: Int
-    ): ServiceResponseDTO
+    ): ServiceResponse
 }
