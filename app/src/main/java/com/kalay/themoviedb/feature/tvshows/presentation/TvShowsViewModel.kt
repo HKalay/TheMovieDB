@@ -1,11 +1,10 @@
 package com.kalay.themoviedb.feature.tvshows.presentation
 
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kalay.themoviedb.core.util.ErrorResponse
 import com.kalay.themoviedb.core.state.PaginationState
 import com.kalay.themoviedb.core.util.Resource
-import com.kalay.themoviedb.core.util.safeLaunch
+import com.kalay.themoviedb.core.viewmodel.BaseViewModel
 import com.kalay.themoviedb.domain.model.remote.DiscoverDTO
 import com.kalay.themoviedb.domain.usecase.remote.discover.GetDiscoverTvUseCase
 import com.kalay.themoviedb.domain.usecase.remote.search.GetSearchTvUseCase
@@ -27,7 +26,7 @@ import javax.inject.Inject
 class TvShowsViewModel @Inject constructor(
     private val getDiscoverTvUseCase: GetDiscoverTvUseCase,
     private val getSearchTvUseCase: GetSearchTvUseCase,
-) : ViewModel() {
+) : BaseViewModel() {
 
     private val _uiState = MutableStateFlow(TvShowUiState())
     val uiState: StateFlow<TvShowUiState> = _uiState.asStateFlow()

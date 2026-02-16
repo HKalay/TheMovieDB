@@ -1,10 +1,8 @@
 package com.kalay.themoviedb.feature.favorites.presentation
 
-import androidx.lifecycle.ViewModel
 import com.kalay.themoviedb.core.util.ErrorResponse
 import com.kalay.themoviedb.core.util.Resource
-import com.kalay.themoviedb.core.util.collectFlow
-import com.kalay.themoviedb.core.util.safeLaunch
+import com.kalay.themoviedb.core.viewmodel.BaseViewModel
 import com.kalay.themoviedb.domain.mapper.toFavorite
 import com.kalay.themoviedb.domain.model.remote.DetailDTO
 import com.kalay.themoviedb.domain.model.remote.DiscoverDTO
@@ -25,7 +23,7 @@ class FavoriteViewModel @Inject constructor(
     private val deleteFromFavoritesUseCase: DeleteFromFavoritesUseCase,
     private val isFavoriteUseCase: IsFavoriteUseCase,
     private val getAllFavoritesUseCase: GetAllFavoritesUseCase
-) : ViewModel() {
+) : BaseViewModel() {
 
     private val _favoritesMap = MutableStateFlow<Map<Int, Boolean>>(emptyMap())
     val favoritesMap: StateFlow<Map<Int, Boolean>> = _favoritesMap.asStateFlow()

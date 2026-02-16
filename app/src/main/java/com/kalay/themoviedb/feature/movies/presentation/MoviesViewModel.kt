@@ -1,11 +1,10 @@
 package com.kalay.themoviedb.feature.movies.presentation
 
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kalay.themoviedb.core.util.ErrorResponse
 import com.kalay.themoviedb.core.state.PaginationState
 import com.kalay.themoviedb.core.util.Resource
-import com.kalay.themoviedb.core.util.safeLaunch
+import com.kalay.themoviedb.core.viewmodel.BaseViewModel
 import com.kalay.themoviedb.domain.model.remote.DiscoverDTO
 import com.kalay.themoviedb.domain.usecase.remote.discover.GetDiscoverMoviesUseCase
 import com.kalay.themoviedb.domain.usecase.remote.search.GetSearchMoviesUseCase
@@ -27,7 +26,7 @@ import javax.inject.Inject
 class MoviesViewModel @Inject constructor(
     private val getDiscoverMoviesUseCase: GetDiscoverMoviesUseCase,
     private val getSearchMoviesUseCase: GetSearchMoviesUseCase
-) : ViewModel() {
+) : BaseViewModel() {
 
     private val _uiState = MutableStateFlow(MovieUiState())
     val uiState: StateFlow<MovieUiState> = _uiState.asStateFlow()

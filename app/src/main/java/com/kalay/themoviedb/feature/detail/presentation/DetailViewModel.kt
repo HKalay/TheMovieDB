@@ -1,9 +1,8 @@
 package com.kalay.themoviedb.feature.detail.presentation
 
-import androidx.lifecycle.ViewModel
 import com.kalay.themoviedb.core.util.ErrorResponse
 import com.kalay.themoviedb.core.util.Resource
-import com.kalay.themoviedb.core.util.safeLaunch
+import com.kalay.themoviedb.core.viewmodel.BaseViewModel
 import com.kalay.themoviedb.domain.enums.DetailType
 import com.kalay.themoviedb.domain.model.remote.DetailDTO
 import com.kalay.themoviedb.domain.usecase.remote.detail.GetDetailMovieUseCase
@@ -19,8 +18,7 @@ import javax.inject.Inject
 class DetailViewModel @Inject constructor(
     private val getDetailMovieUseCase: GetDetailMovieUseCase,
     private val getDetailTvShowUseCase: GetDetailTvShowUseCase
-) :
-    ViewModel() {
+) : BaseViewModel() {
 
     private val _uiState = MutableStateFlow(DetailUiState())
     val uiState: StateFlow<DetailUiState> = _uiState.asStateFlow()
