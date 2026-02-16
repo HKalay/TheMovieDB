@@ -56,9 +56,7 @@ class DetailViewModel @Inject constructor(
 
     fun hideDialog() {
         if (_uiState.value.detailResource is Resource.Error || _uiState.value.detailResource is Resource.Empty) {
-            (_uiState.value.detailResource as? Resource.Success)?.data?.let {
-                _uiState.value.detailResource = Resource.Success(it)
-            }
+            _uiState.update { it.copy(detailResource = Resource.Empty) }
         }
     }
 }

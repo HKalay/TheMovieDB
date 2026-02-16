@@ -4,9 +4,9 @@ import com.kalay.themoviedb.core.util.Resource
 import com.kalay.themoviedb.domain.model.remote.DiscoverDTO
 
 data class MovieUiState(
-    var movieListResource: Resource<List<DiscoverDTO>> = Resource.Loading,
-    var searchQuery: String = "",
-    var isPaginating: Boolean = false,
-    var isSearchMode: Boolean = false
+    val movieListResource: Resource<List<DiscoverDTO>> = Resource.Loading,
+    val searchQuery: String = "",
+    val isPaginating: Boolean = false,
+    val isSearchMode: Boolean = false
 )
 
