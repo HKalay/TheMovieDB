@@ -2,7 +2,7 @@ package com.kalay.themoviedb.feature.favorites.presentation
 
 import com.kalay.themoviedb.core.util.ErrorResponse
 import com.kalay.themoviedb.core.util.Resource
-import com.kalay.themoviedb.core.viewmodel.BaseViewModel
+import com.kalay.themoviedb.core.base.BaseViewModel
 import com.kalay.themoviedb.domain.mapper.toFavorite
 import com.kalay.themoviedb.domain.model.remote.DetailDTO
 import com.kalay.themoviedb.domain.model.remote.DiscoverDTO

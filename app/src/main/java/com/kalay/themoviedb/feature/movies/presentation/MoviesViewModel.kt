@@ -4,7 +4,7 @@ import androidx.lifecycle.viewModelScope
 import com.kalay.themoviedb.core.util.ErrorResponse
 import com.kalay.themoviedb.core.state.PaginationState
 import com.kalay.themoviedb.core.util.Resource
-import com.kalay.themoviedb.core.viewmodel.BaseViewModel
+import com.kalay.themoviedb.core.base.BaseViewModel
 import com.kalay.themoviedb.domain.model.remote.DiscoverDTO
 import com.kalay.themoviedb.domain.usecase.remote.discover.GetDiscoverMoviesUseCase
 import com.kalay.themoviedb.domain.usecase.remote.search.GetSearchMoviesUseCase

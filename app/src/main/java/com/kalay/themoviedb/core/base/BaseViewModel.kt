@@ -1,4 +1,4 @@
-package com.kalay.themoviedb.core.viewmodel
+package com.kalay.themoviedb.core.base
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

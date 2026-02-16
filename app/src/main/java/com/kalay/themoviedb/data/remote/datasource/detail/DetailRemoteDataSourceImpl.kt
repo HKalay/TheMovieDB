@@ -7,11 +7,7 @@ import javax.inject.Inject
 class DetailRemoteDataSourceImpl @Inject constructor(
     private val apiDetailService: ApiDetailService
 ) : DetailRemoteDataSource {
-    override suspend fun getMovieDetail(id: Int): Result {
-        return apiDetailService.getMovieDetail(movieId = id)
-    }
+    override suspend fun getMovieDetail(id: Int) = apiDetailService.getMovieDetail(movieId = id)
 
-    override suspend fun getTvShowDetail(id: Int): Result {
-        return apiDetailService.getTvShowDetail(tvShowId = id)
-    }
+    override suspend fun getTvShowDetail(id: Int) = apiDetailService.getTvShowDetail(tvShowId = id)
 }

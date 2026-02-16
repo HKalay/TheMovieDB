@@ -8,11 +8,9 @@ class SearchRemoteDataSourceImpl @Inject constructor(
     private val apiSearchService: ApiSearchService
 ) : SearchRemoteDataSource {
 
-    override suspend fun getSearchMovies(movieName: String, page: Int): ServiceResponseDTO {
-        return apiSearchService.getSearchMovies(query = movieName, page = page)
-    }
+    override suspend fun getSearchMovies(movieName: String, page: Int) =
+        apiSearchService.getSearchMovies(query = movieName, page = page)
 
-    override suspend fun getSearchTv(tvName: String, page: Int): ServiceResponseDTO {
-        return apiSearchService.getSearchTv(query = tvName, page = page)
-    }
+    override suspend fun getSearchTv(tvName: String, page: Int) =
+        apiSearchService.getSearchTv(query = tvName, page = page)
 }

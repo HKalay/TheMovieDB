@@ -2,7 +2,7 @@ package com.kalay.themoviedb.feature.detail.presentation
 
 import com.kalay.themoviedb.core.util.ErrorResponse
 import com.kalay.themoviedb.core.util.Resource
-import com.kalay.themoviedb.core.viewmodel.BaseViewModel
+import com.kalay.themoviedb.core.base.BaseViewModel
 import com.kalay.themoviedb.domain.enums.DetailType
 import com.kalay.themoviedb.domain.model.remote.DetailDTO
 import com.kalay.themoviedb.domain.usecase.remote.detail.GetDetailMovieUseCase
