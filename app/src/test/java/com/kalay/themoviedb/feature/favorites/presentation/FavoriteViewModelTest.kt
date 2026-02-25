@@ -5,11 +5,14 @@ import com.kalay.themoviedb.domain.usecase.local.DeleteFromFavoritesUseCase
 import com.kalay.themoviedb.domain.usecase.local.GetAllFavoritesUseCase
 import com.kalay.themoviedb.domain.usecase.local.InsertToFavoriteUseCase
 import com.kalay.themoviedb.domain.usecase.local.IsFavoriteUseCase
+import com.google.common.truth.Truth
+import io.mockk.clearAllMocks
 import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import org.junit.Assert.assertEquals
+import org.junit.After
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
@@ -19,32 +22,48 @@ class FavoriteViewModelTest {
     @get:Rule
     val mainDispatcherRule = MainDispatcherRule()
 
+    private lateinit var insertToFavoriteUseCase: InsertToFavoriteUseCase
+    private lateinit var deleteFromFavoritesUseCase: DeleteFromFavoritesUseCase
+    private lateinit var isFavoriteUseCase: IsFavoriteUseCase
+    private lateinit var getAllFavoritesUseCase: GetAllFavoritesUseCase
+
+    @Before
+    fun setUp() {
+        insertToFavoriteUseCase = mockk(relaxed = true)
+        deleteFromFavoritesUseCase = mockk(relaxed = true)
+        isFavoriteUseCase = mockk(relaxed = true)
+        getAllFavoritesUseCase = mockk(relaxed = true)
+        every { getAllFavoritesUseCase() } returns flowOf(emptyList())
+    }
+
+    @After
+    fun tearDown() {
+        clearAllMocks()
+    }
+
     @Test
     fun `Given viewModel created, When updateSearchQuery called with query, Then uiState searchQuery is updated`() {
-        val insertToFavoriteUseCase = mockk<InsertToFavoriteUseCase>(relaxed = true)
-        val deleteFromFavoritesUseCase = mockk<DeleteFromFavoritesUseCase>(relaxed = true)
-        val isFavoriteUseCase = mockk<IsFavoriteUseCase>(relaxed = true)
-        val getAllFavoritesUseCase = mockk<GetAllFavoritesUseCase>(relaxed = true)
-        every { getAllFavoritesUseCase() } returns flowOf(emptyList())
+        // Given
         val viewModel = FavoriteViewModel(
             insertToFavoriteUseCase,
             deleteFromFavoritesUseCase,
             isFavoriteUseCase,
             getAllFavoritesUseCase
         )
+        val expectedQuery = "favori"
 
-        viewModel.updateSearchQuery("favori")
+        // When
+        viewModel.updateSearchQuery(expectedQuery)
 
-        assertEquals("favori", viewModel.uiState.value.searchQuery)
+        // Then
+        viewModel.uiState.value.apply {
+            Truth.assertThat(searchQuery).isEqualTo(expectedQuery)
+        }
     }
 
     @Test
     fun `Given viewModel created, When setSearchMode called with true, Then uiState isSearchMode is true`() {
-        val insertToFavoriteUseCase = mockk<InsertToFavoriteUseCase>(relaxed = true)
-        val deleteFromFavoritesUseCase = mockk<DeleteFromFavoritesUseCase>(relaxed = true)
-        val isFavoriteUseCase = mockk<IsFavoriteUseCase>(relaxed = true)
-        val getAllFavoritesUseCase = mockk<GetAllFavoritesUseCase>(relaxed = true)
-        every { getAllFavoritesUseCase() } returns flowOf(emptyList())
+        // Given
         val viewModel = FavoriteViewModel(
             insertToFavoriteUseCase,
             deleteFromFavoritesUseCase,
@@ -52,18 +71,18 @@ class FavoriteViewModelTest {
             getAllFavoritesUseCase
         )
 
+        // When
         viewModel.setSearchMode(true)
 
-        assertEquals(true, viewModel.uiState.value.isSearchMode)
+        // Then
+        viewModel.uiState.value.apply {
+            Truth.assertThat(isSearchMode).isTrue()
+        }
     }
 
     @Test
     fun `Given searchMode is true, When setSearchMode called with false, Then uiState isSearchMode is false`() {
-        val insertToFavoriteUseCase = mockk<InsertToFavoriteUseCase>(relaxed = true)
-        val deleteFromFavoritesUseCase = mockk<DeleteFromFavoritesUseCase>(relaxed = true)
-        val isFavoriteUseCase = mockk<IsFavoriteUseCase>(relaxed = true)
-        val getAllFavoritesUseCase = mockk<GetAllFavoritesUseCase>(relaxed = true)
-        every { getAllFavoritesUseCase() } returns flowOf(emptyList())
+        // Given
         val viewModel = FavoriteViewModel(
             insertToFavoriteUseCase,
             deleteFromFavoritesUseCase,
@@ -72,8 +91,12 @@ class FavoriteViewModelTest {
         )
         viewModel.setSearchMode(true)
 
+        // When
         viewModel.setSearchMode(false)
 
-        assertEquals(false, viewModel.uiState.value.isSearchMode)
+        // Then
+        viewModel.uiState.value.apply {
+            Truth.assertThat(isSearchMode).isFalse()
+        }
     }
 }

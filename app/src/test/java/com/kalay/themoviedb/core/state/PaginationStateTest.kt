@@ -1,14 +1,13 @@
 package com.kalay.themoviedb.core.state
 
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertFalse
-import org.junit.Assert.assertTrue
+import com.google.common.truth.Truth
 import org.junit.Test
 
 class PaginationStateTest {
 
     @Test
     fun `Given state with page and items, When reset with empty query called, Then state is cleared and query is empty`() {
+        // Given
         val state = PaginationState(
             currentPage = 3,
             isLoading = true,
@@ -17,53 +16,78 @@ class PaginationStateTest {
             items = listOf(1, 2, 3)
         )
 
+        // When
         val result = state.reset("")
 
-        assertEquals(1, result.currentPage)
-        assertFalse(result.isLoading)
-        assertFalse(result.isLastPage)
-        assertEquals("", result.currentQuery)
-        assertTrue(result.items.isEmpty())
+        // Then
+        result.apply {
+            Truth.assertThat(currentPage).isEqualTo(1)
+            Truth.assertThat(isLoading).isFalse()
+            Truth.assertThat(isLastPage).isFalse()
+            Truth.assertThat(currentQuery).isEqualTo("")
+            Truth.assertThat(items).isEmpty()
+        }
     }
 
     @Test
     fun `Given state with page 1 and one item, When appendPage called with new items, Then page increments and items appended`() {
+        // Given
         val state = PaginationState(currentPage = 1, items = listOf("a"))
+        val newItems = listOf("b", "c")
 
-        val result = state.appendPage(listOf("b", "c"))
+        // When
+        val result = state.appendPage(newItems)
 
-        assertEquals(2, result.currentPage)
-        assertFalse(result.isLoading)
-        assertFalse(result.isLastPage)
-        assertEquals(listOf("a", "b", "c"), result.items)
+        // Then
+        result.apply {
+            Truth.assertThat(currentPage).isEqualTo(2)
+            Truth.assertThat(isLoading).isFalse()
+            Truth.assertThat(isLastPage).isFalse()
+            Truth.assertThat(items).containsExactly("a", "b", "c").inOrder()
+        }
     }
 
     @Test
     fun `Given state with items, When appendPage called with empty list, Then isLastPage is true`() {
+        // Given
         val state = PaginationState(currentPage = 1, items = listOf("a"))
 
+        // When
         val result = state.appendPage(emptyList())
 
-        assertTrue(result.isLastPage)
-        assertFalse(result.isLoading)
-        assertEquals(listOf("a"), result.items)
+        // Then
+        result.apply {
+            Truth.assertThat(isLastPage).isTrue()
+            Truth.assertThat(isLoading).isFalse()
+            Truth.assertThat(items).containsExactly("a")
+        }
     }
 
     @Test
     fun `Given isLoading false, When startLoading called, Then isLoading is true`() {
+        // Given
         val state = PaginationState<Unit>(isLoading = false)
 
+        // When
         val result = state.startLoading()
 
-        assertTrue(result.isLoading)
+        // Then
+        result.apply {
+            Truth.assertThat(isLoading).isTrue()
+        }
     }
 
     @Test
     fun `Given isLoading true, When setLoadingFailed called, Then isLoading is false`() {
+        // Given
         val state = PaginationState<Unit>(isLoading = true)
 
+        // When
         val result = state.setLoadingFailed()
 
-        assertFalse(result.isLoading)
+        // Then
+        result.apply {
+            Truth.assertThat(isLoading).isFalse()
+        }
     }
 }

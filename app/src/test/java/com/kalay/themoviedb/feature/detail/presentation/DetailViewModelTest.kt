@@ -6,12 +6,14 @@ import com.kalay.themoviedb.domain.enums.DetailType
 import com.kalay.themoviedb.domain.model.remote.Detail
 import com.kalay.themoviedb.domain.usecase.remote.detail.GetDetailMovieUseCase
 import com.kalay.themoviedb.domain.usecase.remote.detail.GetDetailTvShowUseCase
+import com.google.common.truth.Truth
+import io.mockk.clearAllMocks
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertTrue
+import org.junit.After
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
@@ -21,39 +23,62 @@ class DetailViewModelTest {
     @get:Rule
     val mainDispatcherRule = MainDispatcherRule()
 
+    private lateinit var getDetailMovieUseCase: GetDetailMovieUseCase
+    private lateinit var getDetailTvShowUseCase: GetDetailTvShowUseCase
+
+    @Before
+    fun setUp() {
+        getDetailMovieUseCase = mockk(relaxed = true)
+        getDetailTvShowUseCase = mockk(relaxed = true)
+    }
+
+    @After
+    fun tearDown() {
+        clearAllMocks()
+    }
+
     @Test
     fun `Given initial state, When updateIsFavorite called with true, Then uiState isFavorite is true`() {
-        val getDetailMovieUseCase = mockk<GetDetailMovieUseCase>(relaxed = true)
-        val getDetailTvShowUseCase = mockk<GetDetailTvShowUseCase>(relaxed = true)
+        // Given
         val viewModel = DetailViewModel(getDetailMovieUseCase, getDetailTvShowUseCase)
 
+        // When
         viewModel.updateIsFavorite(true)
 
-        assertEquals(true, viewModel.uiState.value.isFavorite)
+        // Then
+        viewModel.uiState.value.apply {
+            Truth.assertThat(isFavorite).isTrue()
+        }
     }
 
     @Test
     fun `Given initial state, When updateIsFavorite called with false, Then uiState isFavorite is false`() {
-        val getDetailMovieUseCase = mockk<GetDetailMovieUseCase>(relaxed = true)
-        val getDetailTvShowUseCase = mockk<GetDetailTvShowUseCase>(relaxed = true)
+        // Given
         val viewModel = DetailViewModel(getDetailMovieUseCase, getDetailTvShowUseCase)
 
+        // When
         viewModel.updateIsFavorite(false)
 
-        assertEquals(false, viewModel.uiState.value.isFavorite)
+        // Then
+        viewModel.uiState.value.apply {
+            Truth.assertThat(isFavorite).isFalse()
+        }
     }
 
     @Test
     fun `Given fetchDetail returned error, When hideDialog called, Then detailResource is Empty`() = runTest {
-        val getDetailMovieUseCase = mockk<GetDetailMovieUseCase>(relaxed = true)
-        val getDetailTvShowUseCase = mockk<GetDetailTvShowUseCase>(relaxed = true)
+        // Given
         coEvery { getDetailMovieUseCase(any()) } throws RuntimeException("network error")
         val viewModel = DetailViewModel(getDetailMovieUseCase, getDetailTvShowUseCase)
         val detail = Detail(id = 1, detailType = DetailType.MOVIE)
 
+        // When
         viewModel.fetchDetail(detail)
         viewModel.hideDialog()
 
-        assertTrue(viewModel.uiState.value.detailResource is Resource.Empty)
+        // Then
+        viewModel.uiState.value.apply {
+            Truth.assertThat(detailResource).isInstanceOf(Resource.Empty::class.java)
+        }
     }
 }

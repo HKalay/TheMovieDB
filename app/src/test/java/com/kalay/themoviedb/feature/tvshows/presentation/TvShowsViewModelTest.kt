@@ -3,10 +3,13 @@ package com.kalay.themoviedb.feature.tvshows.presentation
 import com.kalay.themoviedb.core.util.MainDispatcherRule
 import com.kalay.themoviedb.domain.usecase.remote.discover.GetDiscoverTvUseCase
 import com.kalay.themoviedb.domain.usecase.remote.search.GetSearchTvUseCase
+import com.google.common.truth.Truth
+import io.mockk.clearAllMocks
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import org.junit.Assert.assertEquals
+import org.junit.After
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
@@ -16,43 +19,63 @@ class TvShowsViewModelTest {
     @get:Rule
     val mainDispatcherRule = MainDispatcherRule()
 
-    @Test
-    fun `Given viewModel created, When updateSearchQuery called with query, Then uiState searchQuery is updated`() {
-        val getDiscoverTvUseCase = mockk<GetDiscoverTvUseCase>(relaxed = true)
-        val getSearchTvUseCase = mockk<GetSearchTvUseCase>(relaxed = true)
+    private lateinit var getDiscoverTvUseCase: GetDiscoverTvUseCase
+    private lateinit var getSearchTvUseCase: GetSearchTvUseCase
+
+    @Before
+    fun setUp() {
+        getDiscoverTvUseCase = mockk(relaxed = true)
+        getSearchTvUseCase = mockk(relaxed = true)
         coEvery { getDiscoverTvUseCase(any()) } returns emptyList()
         coEvery { getSearchTvUseCase(any(), any()) } returns emptyList()
+    }
+
+    @After
+    fun tearDown() {
+        clearAllMocks()
+    }
+
+    @Test
+    fun `Given viewModel created, When updateSearchQuery called with query, Then uiState searchQuery is updated`() {
+        // Given
         val viewModel = TvShowsViewModel(getDiscoverTvUseCase, getSearchTvUseCase)
+        val expectedQuery = "breaking"
 
-        viewModel.updateSearchQuery("breaking")
+        // When
+        viewModel.updateSearchQuery(expectedQuery)
 
-        assertEquals("breaking", viewModel.uiState.value.searchQuery)
+        // Then
+        viewModel.uiState.value.apply {
+            Truth.assertThat(searchQuery).isEqualTo(expectedQuery)
+        }
     }
 
     @Test
     fun `Given viewModel created, When setSearchMode called with true, Then uiState isSearchMode is true`() {
-        val getDiscoverTvUseCase = mockk<GetDiscoverTvUseCase>(relaxed = true)
-        val getSearchTvUseCase = mockk<GetSearchTvUseCase>(relaxed = true)
-        coEvery { getDiscoverTvUseCase(any()) } returns emptyList()
-        coEvery { getSearchTvUseCase(any(), any()) } returns emptyList()
+        // Given
         val viewModel = TvShowsViewModel(getDiscoverTvUseCase, getSearchTvUseCase)
 
+        // When
         viewModel.setSearchMode(true)
 
-        assertEquals(true, viewModel.uiState.value.isSearchMode)
+        // Then
+        viewModel.uiState.value.apply {
+            Truth.assertThat(isSearchMode).isTrue()
+        }
     }
 
     @Test
     fun `Given searchMode is true, When setSearchMode called with false, Then uiState isSearchMode is false`() {
-        val getDiscoverTvUseCase = mockk<GetDiscoverTvUseCase>(relaxed = true)
-        val getSearchTvUseCase = mockk<GetSearchTvUseCase>(relaxed = true)
-        coEvery { getDiscoverTvUseCase(any()) } returns emptyList()
-        coEvery { getSearchTvUseCase(any(), any()) } returns emptyList()
+        // Given
         val viewModel = TvShowsViewModel(getDiscoverTvUseCase, getSearchTvUseCase)
         viewModel.setSearchMode(true)
 
+        // When
         viewModel.setSearchMode(false)
 
-        assertEquals(false, viewModel.uiState.value.isSearchMode)
+        // Then
+        viewModel.uiState.value.apply {
+            Truth.assertThat(isSearchMode).isFalse()
+        }
     }
 }
