@@ -8,7 +8,7 @@ import org.junit.Test
 class PaginationStateTest {
 
     @Test
-    fun `reset with query clears state and sets query`() {
+    fun `Given state with page and items, When reset with empty query called, Then state is cleared and query is empty`() {
         val state = PaginationState(
             currentPage = 3,
             isLoading = true,
@@ -27,7 +27,7 @@ class PaginationStateTest {
     }
 
     @Test
-    fun `appendPage increments page and appends items`() {
+    fun `Given state with page 1 and one item, When appendPage called with new items, Then page increments and items appended`() {
         val state = PaginationState(currentPage = 1, items = listOf("a"))
 
         val result = state.appendPage(listOf("b", "c"))
@@ -39,7 +39,7 @@ class PaginationStateTest {
     }
 
     @Test
-    fun `appendPage empty list sets isLastPage`() {
+    fun `Given state with items, When appendPage called with empty list, Then isLastPage is true`() {
         val state = PaginationState(currentPage = 1, items = listOf("a"))
 
         val result = state.appendPage(emptyList())
@@ -50,7 +50,7 @@ class PaginationStateTest {
     }
 
     @Test
-    fun `startLoading sets isLoading true`() {
+    fun `Given isLoading false, When startLoading called, Then isLoading is true`() {
         val state = PaginationState<Unit>(isLoading = false)
 
         val result = state.startLoading()
@@ -59,7 +59,7 @@ class PaginationStateTest {
     }
 
     @Test
-    fun `setLoadingFailed sets isLoading false`() {
+    fun `Given isLoading true, When setLoadingFailed called, Then isLoading is false`() {
         val state = PaginationState<Unit>(isLoading = true)
 
         val result = state.setLoadingFailed()

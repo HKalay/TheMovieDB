@@ -20,7 +20,7 @@ class FavoriteViewModelTest {
     val mainDispatcherRule = MainDispatcherRule()
 
     @Test
-    fun `updateSearchQuery updates uiState searchQuery`() {
+    fun `Given viewModel created, When updateSearchQuery called with query, Then uiState searchQuery is updated`() {
         val insertToFavoriteUseCase = mockk<InsertToFavoriteUseCase>(relaxed = true)
         val deleteFromFavoritesUseCase = mockk<DeleteFromFavoritesUseCase>(relaxed = true)
         val isFavoriteUseCase = mockk<IsFavoriteUseCase>(relaxed = true)
@@ -39,7 +39,7 @@ class FavoriteViewModelTest {
     }
 
     @Test
-    fun `setSearchMode enabled updates uiState isSearchMode`() {
+    fun `Given viewModel created, When setSearchMode called with true, Then uiState isSearchMode is true`() {
         val insertToFavoriteUseCase = mockk<InsertToFavoriteUseCase>(relaxed = true)
         val deleteFromFavoritesUseCase = mockk<DeleteFromFavoritesUseCase>(relaxed = true)
         val isFavoriteUseCase = mockk<IsFavoriteUseCase>(relaxed = true)
@@ -58,7 +58,7 @@ class FavoriteViewModelTest {
     }
 
     @Test
-    fun `setSearchMode disabled updates uiState isSearchMode`() {
+    fun `Given searchMode is true, When setSearchMode called with false, Then uiState isSearchMode is false`() {
         val insertToFavoriteUseCase = mockk<InsertToFavoriteUseCase>(relaxed = true)
         val deleteFromFavoritesUseCase = mockk<DeleteFromFavoritesUseCase>(relaxed = true)
         val isFavoriteUseCase = mockk<IsFavoriteUseCase>(relaxed = true)

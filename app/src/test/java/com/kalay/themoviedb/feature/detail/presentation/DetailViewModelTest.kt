@@ -22,7 +22,7 @@ class DetailViewModelTest {
     val mainDispatcherRule = MainDispatcherRule()
 
     @Test
-    fun `updateIsFavorite true`() {
+    fun `Given initial state, When updateIsFavorite called with true, Then uiState isFavorite is true`() {
         val getDetailMovieUseCase = mockk<GetDetailMovieUseCase>(relaxed = true)
         val getDetailTvShowUseCase = mockk<GetDetailTvShowUseCase>(relaxed = true)
         val viewModel = DetailViewModel(getDetailMovieUseCase, getDetailTvShowUseCase)
@@ -33,7 +33,7 @@ class DetailViewModelTest {
     }
 
     @Test
-    fun `updateIsFavorite false`() {
+    fun `Given initial state, When updateIsFavorite called with false, Then uiState isFavorite is false`() {
         val getDetailMovieUseCase = mockk<GetDetailMovieUseCase>(relaxed = true)
         val getDetailTvShowUseCase = mockk<GetDetailTvShowUseCase>(relaxed = true)
         val viewModel = DetailViewModel(getDetailMovieUseCase, getDetailTvShowUseCase)
@@ -44,7 +44,7 @@ class DetailViewModelTest {
     }
 
     @Test
-    fun `hideDialog when Error then Empty`() = runTest {
+    fun `Given fetchDetail returned error, When hideDialog called, Then detailResource is Empty`() = runTest {
         val getDetailMovieUseCase = mockk<GetDetailMovieUseCase>(relaxed = true)
         val getDetailTvShowUseCase = mockk<GetDetailTvShowUseCase>(relaxed = true)
         coEvery { getDetailMovieUseCase(any()) } throws RuntimeException("network error")

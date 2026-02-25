@@ -17,7 +17,7 @@ class TvShowsViewModelTest {
     val mainDispatcherRule = MainDispatcherRule()
 
     @Test
-    fun `updateSearchQuery updates uiState searchQuery`() {
+    fun `Given viewModel created, When updateSearchQuery called with query, Then uiState searchQuery is updated`() {
         val getDiscoverTvUseCase = mockk<GetDiscoverTvUseCase>(relaxed = true)
         val getSearchTvUseCase = mockk<GetSearchTvUseCase>(relaxed = true)
         coEvery { getDiscoverTvUseCase(any()) } returns emptyList()
@@ -30,7 +30,7 @@ class TvShowsViewModelTest {
     }
 
     @Test
-    fun `setSearchMode enabled updates uiState isSearchMode`() {
+    fun `Given viewModel created, When setSearchMode called with true, Then uiState isSearchMode is true`() {
         val getDiscoverTvUseCase = mockk<GetDiscoverTvUseCase>(relaxed = true)
         val getSearchTvUseCase = mockk<GetSearchTvUseCase>(relaxed = true)
         coEvery { getDiscoverTvUseCase(any()) } returns emptyList()
@@ -43,7 +43,7 @@ class TvShowsViewModelTest {
     }
 
     @Test
-    fun `setSearchMode disabled updates uiState isSearchMode`() {
+    fun `Given searchMode is true, When setSearchMode called with false, Then uiState isSearchMode is false`() {
         val getDiscoverTvUseCase = mockk<GetDiscoverTvUseCase>(relaxed = true)
         val getSearchTvUseCase = mockk<GetSearchTvUseCase>(relaxed = true)
         coEvery { getDiscoverTvUseCase(any()) } returns emptyList()
