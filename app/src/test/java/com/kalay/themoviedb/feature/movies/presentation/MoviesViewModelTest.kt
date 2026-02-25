@@ -5,9 +5,10 @@ import com.kalay.themoviedb.core.util.MainDispatcherRule
 import com.kalay.themoviedb.domain.usecase.remote.discover.GetDiscoverMoviesUseCase
 import com.kalay.themoviedb.domain.usecase.remote.search.GetSearchMoviesUseCase
 import com.google.common.truth.Truth
+import io.mockk.MockKAnnotations
 import io.mockk.clearAllMocks
 import io.mockk.coEvery
-import io.mockk.mockk
+import io.mockk.impl.annotations.RelaxedMockK
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.flow.toList
@@ -23,13 +24,15 @@ class MoviesViewModelTest {
     @get:Rule
     val mainDispatcherRule = MainDispatcherRule()
 
-    private lateinit var getDiscoverMoviesUseCase: GetDiscoverMoviesUseCase
-    private lateinit var getSearchMoviesUseCase: GetSearchMoviesUseCase
+    @RelaxedMockK
+    lateinit var getDiscoverMoviesUseCase: GetDiscoverMoviesUseCase
+
+    @RelaxedMockK
+    lateinit var getSearchMoviesUseCase: GetSearchMoviesUseCase
 
     @Before
     fun setUp() {
-        getDiscoverMoviesUseCase = mockk(relaxed = true)
-        getSearchMoviesUseCase = mockk(relaxed = true)
+        MockKAnnotations.init(this)
         coEvery { getDiscoverMoviesUseCase(any()) } returns emptyList()
         coEvery { getSearchMoviesUseCase(any(), any()) } returns emptyList()
     }
@@ -89,7 +92,7 @@ class MoviesViewModelTest {
         val viewModel = MoviesViewModel(getDiscoverMoviesUseCase, getSearchMoviesUseCase)
         val expectedQuery = "batman"
 
-        // When & Then - Flow test with Turbine (step-by-step verification, 3.2.2)
+        // When & Then
         viewModel.uiState.test {
             awaitItem() // initial state
             viewModel.updateSearchQuery(expectedQuery)
@@ -108,7 +111,7 @@ class MoviesViewModelTest {
         viewModel.updateSearchQuery(expectedQuery)
         val collected: List<MovieUiState> = viewModel.uiState.take(1).toList()
 
-        // Then - state test with toList() (3.2.1: last known value)
+        // Then
         val lastState = collected.last()
         Truth.assertThat(lastState.searchQuery).isEqualTo(expectedQuery)
     }

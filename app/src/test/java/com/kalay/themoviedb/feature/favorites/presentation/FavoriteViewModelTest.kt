@@ -6,9 +6,10 @@ import com.kalay.themoviedb.domain.usecase.local.GetAllFavoritesUseCase
 import com.kalay.themoviedb.domain.usecase.local.InsertToFavoriteUseCase
 import com.kalay.themoviedb.domain.usecase.local.IsFavoriteUseCase
 import com.google.common.truth.Truth
+import io.mockk.MockKAnnotations
 import io.mockk.clearAllMocks
 import io.mockk.every
-import io.mockk.mockk
+import io.mockk.impl.annotations.RelaxedMockK
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
@@ -23,17 +24,21 @@ class FavoriteViewModelTest {
     @get:Rule
     val mainDispatcherRule = MainDispatcherRule()
 
-    private lateinit var insertToFavoriteUseCase: InsertToFavoriteUseCase
-    private lateinit var deleteFromFavoritesUseCase: DeleteFromFavoritesUseCase
-    private lateinit var isFavoriteUseCase: IsFavoriteUseCase
-    private lateinit var getAllFavoritesUseCase: GetAllFavoritesUseCase
+    @RelaxedMockK
+    lateinit var insertToFavoriteUseCase: InsertToFavoriteUseCase
+
+    @RelaxedMockK
+    lateinit var deleteFromFavoritesUseCase: DeleteFromFavoritesUseCase
+
+    @RelaxedMockK
+    lateinit var isFavoriteUseCase: IsFavoriteUseCase
+
+    @RelaxedMockK
+    lateinit var getAllFavoritesUseCase: GetAllFavoritesUseCase
 
     @Before
     fun setUp() {
-        insertToFavoriteUseCase = mockk(relaxed = true)
-        deleteFromFavoritesUseCase = mockk(relaxed = true)
-        isFavoriteUseCase = mockk(relaxed = true)
-        getAllFavoritesUseCase = mockk(relaxed = true)
+        MockKAnnotations.init(this)
         every { getAllFavoritesUseCase() } returns flowOf(emptyList())
     }
 

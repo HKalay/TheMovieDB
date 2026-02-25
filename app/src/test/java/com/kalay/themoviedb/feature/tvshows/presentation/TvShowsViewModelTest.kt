@@ -4,9 +4,10 @@ import com.kalay.themoviedb.core.util.MainDispatcherRule
 import com.kalay.themoviedb.domain.usecase.remote.discover.GetDiscoverTvUseCase
 import com.kalay.themoviedb.domain.usecase.remote.search.GetSearchTvUseCase
 import com.google.common.truth.Truth
+import io.mockk.MockKAnnotations
 import io.mockk.clearAllMocks
 import io.mockk.coEvery
-import io.mockk.mockk
+import io.mockk.impl.annotations.RelaxedMockK
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.After
@@ -20,13 +21,15 @@ class TvShowsViewModelTest {
     @get:Rule
     val mainDispatcherRule = MainDispatcherRule()
 
-    private lateinit var getDiscoverTvUseCase: GetDiscoverTvUseCase
-    private lateinit var getSearchTvUseCase: GetSearchTvUseCase
+    @RelaxedMockK
+    lateinit var getDiscoverTvUseCase: GetDiscoverTvUseCase
+
+    @RelaxedMockK
+    lateinit var getSearchTvUseCase: GetSearchTvUseCase
 
     @Before
     fun setUp() {
-        getDiscoverTvUseCase = mockk(relaxed = true)
-        getSearchTvUseCase = mockk(relaxed = true)
+        MockKAnnotations.init(this)
         coEvery { getDiscoverTvUseCase(any()) } returns emptyList()
         coEvery { getSearchTvUseCase(any(), any()) } returns emptyList()
     }

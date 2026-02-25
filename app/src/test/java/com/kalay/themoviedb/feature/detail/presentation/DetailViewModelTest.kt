@@ -7,9 +7,11 @@ import com.kalay.themoviedb.domain.model.remote.Detail
 import com.kalay.themoviedb.domain.usecase.remote.detail.GetDetailMovieUseCase
 import com.kalay.themoviedb.domain.usecase.remote.detail.GetDetailTvShowUseCase
 import com.google.common.truth.Truth
+import io.mockk.MockKAnnotations
 import io.mockk.clearAllMocks
 import io.mockk.coEvery
-import io.mockk.mockk
+import io.mockk.impl.annotations.RelaxedMockK
+import io.mockk.coVerify
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.After
@@ -23,13 +25,15 @@ class DetailViewModelTest {
     @get:Rule
     val mainDispatcherRule = MainDispatcherRule()
 
-    private lateinit var getDetailMovieUseCase: GetDetailMovieUseCase
-    private lateinit var getDetailTvShowUseCase: GetDetailTvShowUseCase
+    @RelaxedMockK
+    lateinit var getDetailMovieUseCase: GetDetailMovieUseCase
+
+    @RelaxedMockK
+    lateinit var getDetailTvShowUseCase: GetDetailTvShowUseCase
 
     @Before
     fun setUp() {
-        getDetailMovieUseCase = mockk(relaxed = true)
-        getDetailTvShowUseCase = mockk(relaxed = true)
+        MockKAnnotations.init(this)
     }
 
     @After
@@ -80,5 +84,37 @@ class DetailViewModelTest {
         viewModel.uiState.value.apply {
             Truth.assertThat(detailResource).isInstanceOf(Resource.Empty::class.java)
         }
+    }
+
+    @Test
+    fun `Given movie detail, When fetchDetail called, Then getDetailMovieUseCase invoked exactly once with detail id`() = runTest {
+        // Given
+        val expectedDetail = Detail(id = 42, detailType = DetailType.MOVIE)
+        coEvery { getDetailMovieUseCase(42) } returns expectedDetail
+        val viewModel = DetailViewModel(getDetailMovieUseCase, getDetailTvShowUseCase)
+
+        // When
+        viewModel.fetchDetail(expectedDetail)
+
+        // Then
+        coVerify(exactly = 1) { getDetailMovieUseCase(42) }
+    }
+
+    @Test
+    fun `Given movie detail, When fetchDetail called, Then getDetailMovieUseCase receives captured id`() = runTest {
+        // Given
+        var capturedId: Int? = null
+        val expectedDetail = Detail(id = 99, detailType = DetailType.MOVIE)
+        coEvery { getDetailMovieUseCase(any()) } answers {
+            capturedId = firstArg()
+            expectedDetail
+        }
+        val viewModel = DetailViewModel(getDetailMovieUseCase, getDetailTvShowUseCase)
+
+        // When
+        viewModel.fetchDetail(expectedDetail)
+
+        // Then
+        Truth.assertThat(capturedId).isEqualTo(99)
     }
 }
