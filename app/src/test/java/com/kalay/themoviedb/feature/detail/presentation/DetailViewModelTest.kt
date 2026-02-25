@@ -38,7 +38,7 @@ class DetailViewModelTest {
     }
 
     @Test
-    fun `Given initial state, When updateIsFavorite called with true, Then uiState isFavorite is true`() {
+    fun `Given initial state, When updateIsFavorite called with true, Then uiState isFavorite is true`() = runTest {
         // Given
         val viewModel = DetailViewModel(getDetailMovieUseCase, getDetailTvShowUseCase)
 
@@ -52,7 +52,7 @@ class DetailViewModelTest {
     }
 
     @Test
-    fun `Given initial state, When updateIsFavorite called with false, Then uiState isFavorite is false`() {
+    fun `Given initial state, When updateIsFavorite called with false, Then uiState isFavorite is false`() = runTest {
         // Given
         val viewModel = DetailViewModel(getDetailMovieUseCase, getDetailTvShowUseCase)
 

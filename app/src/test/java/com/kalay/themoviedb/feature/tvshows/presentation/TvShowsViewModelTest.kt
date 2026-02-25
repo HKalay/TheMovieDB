@@ -8,6 +8,7 @@ import io.mockk.clearAllMocks
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.runTest
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -36,7 +37,7 @@ class TvShowsViewModelTest {
     }
 
     @Test
-    fun `Given viewModel created, When updateSearchQuery called with query, Then uiState searchQuery is updated`() {
+    fun `Given viewModel created, When updateSearchQuery called with query, Then uiState searchQuery is updated`() = runTest {
         // Given
         val viewModel = TvShowsViewModel(getDiscoverTvUseCase, getSearchTvUseCase)
         val expectedQuery = "breaking"
@@ -51,7 +52,7 @@ class TvShowsViewModelTest {
     }
 
     @Test
-    fun `Given viewModel created, When setSearchMode called with true, Then uiState isSearchMode is true`() {
+    fun `Given viewModel created, When setSearchMode called with true, Then uiState isSearchMode is true`() = runTest {
         // Given
         val viewModel = TvShowsViewModel(getDiscoverTvUseCase, getSearchTvUseCase)
 
@@ -65,7 +66,7 @@ class TvShowsViewModelTest {
     }
 
     @Test
-    fun `Given searchMode is true, When setSearchMode called with false, Then uiState isSearchMode is false`() {
+    fun `Given searchMode is true, When setSearchMode called with false, Then uiState isSearchMode is false`() = runTest {
         // Given
         val viewModel = TvShowsViewModel(getDiscoverTvUseCase, getSearchTvUseCase)
         viewModel.setSearchMode(true)

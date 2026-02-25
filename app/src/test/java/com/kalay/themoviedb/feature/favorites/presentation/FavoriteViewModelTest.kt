@@ -11,6 +11,7 @@ import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.runTest
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -42,7 +43,7 @@ class FavoriteViewModelTest {
     }
 
     @Test
-    fun `Given viewModel created, When updateSearchQuery called with query, Then uiState searchQuery is updated`() {
+    fun `Given viewModel created, When updateSearchQuery called with query, Then uiState searchQuery is updated`() = runTest {
         // Given
         val viewModel = FavoriteViewModel(
             insertToFavoriteUseCase,
@@ -62,7 +63,7 @@ class FavoriteViewModelTest {
     }
 
     @Test
-    fun `Given viewModel created, When setSearchMode called with true, Then uiState isSearchMode is true`() {
+    fun `Given viewModel created, When setSearchMode called with true, Then uiState isSearchMode is true`() = runTest {
         // Given
         val viewModel = FavoriteViewModel(
             insertToFavoriteUseCase,
@@ -81,7 +82,7 @@ class FavoriteViewModelTest {
     }
 
     @Test
-    fun `Given searchMode is true, When setSearchMode called with false, Then uiState isSearchMode is false`() {
+    fun `Given searchMode is true, When setSearchMode called with false, Then uiState isSearchMode is false`() = runTest {
         // Given
         val viewModel = FavoriteViewModel(
             insertToFavoriteUseCase,
